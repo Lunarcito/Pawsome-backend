@@ -53,8 +53,10 @@ router.get("/places/:placeId", async (req, res) => {
         res.json(error)
     }
 })
+
 router.put("/places/:placeId", fileUploader.array('pictures'), isAuthenticated, async (req, res) => {
     const placeId = req.params
+
     const { name, address, description, type, socialMedia, typeOther } = req.body;
     const pictures = []
     if (req.file) {
@@ -78,6 +80,7 @@ router.get("/places/:placeId/reviews", isAuthenticated, async (req, res) => {
         console.log("searching reviews of places ID", placeId)
         const reviewsByPlace = await Review.find({ place: placeId })
         res.json(reviewsByPlace)
+
     } catch (error) {
         res.json(error)
     }
@@ -106,6 +109,7 @@ router.get("/map", isAuthenticated, async (req, res) => {
         console.log(err)
     }
 });
+
 router.get("/addReview/:placeId", isAuthenticated, (req, res) => {
     res.json(req.params.placeId)
 });
@@ -118,6 +122,7 @@ router.post("/addReview/:placeId", isAuthenticated, async (req, res) => {
         if (!reviewFind) {
             return
         }
+
         if (req.body.comment) {
             review = {
                 check: req.body.check,
@@ -132,6 +137,7 @@ router.post("/addReview/:placeId", isAuthenticated, async (req, res) => {
                 user: userSaved
             }
         }
+
         const newReview = await Review.create(review)
         await Place.findByIdAndUpdate(req.params.placeId, { $push: { Review: newReview._id } });
         await User.findByIdAndUpdate(req.payload._id, { $push: { reviewId: newReview._id } });
@@ -140,6 +146,7 @@ router.post("/addReview/:placeId", isAuthenticated, async (req, res) => {
         console.log(err)
     }
 })
+
 router.post("/favorite/:placeId", isAuthenticated, async (req, res) => {
     const place = req.params
     const placeId = place.placeId
@@ -158,4 +165,5 @@ router.post("/favorite/:placeId", isAuthenticated, async (req, res) => {
         console.log(error)
     }
 }),
+
     module.exports = router;
