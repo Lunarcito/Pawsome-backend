@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const { json } = require("express");
 const Favorite = require("../models/Favorite");
+
 router.post("/addPlace", isAuthenticated, fileUploader.array('pictures'), async (req, res) => {
     const { name, address, description, type, socialMedia, typeOther } = req.body;
     const pictures = []
@@ -17,6 +18,19 @@ router.post("/addPlace", isAuthenticated, fileUploader.array('pictures'), async 
         req.files.forEach((file) => {
             pictures.push(file.path)
         })
+    } else {
+        if (type === 'Restaurant') {
+            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669826849/Pawsome/Restaurant-Logo-by-Koko-Store-580x386_ifffwk.jpg')
+        } else if (type === 'Cafeteria') {
+            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669827075/Pawsome/20-18_mifloz.jpg')
+        } else if (type === 'Museum') {
+            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669827649/Pawsome/publicmuseumsign_89226_djdz6i.png')
+        } else if (type === 'Beach') {
+            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669829586/Pawsome/vecteezy_beach-icon-or-logo-isolated-sign-symbol-vector-illustration__mvmg5t.jpg')
+        } else {
+            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669829890/Pawsome/pet_friendly_1_yivv9j.jpg')
+        }
+
     }
     try {
         const newPlace = await Place.create({ name, address, description, pictures, type, socialMedia, User: req.payload._id, typeOthers: typeOther })
@@ -36,6 +50,7 @@ router.post("/addPlace", isAuthenticated, fileUploader.array('pictures'), async 
         }
     }
 })
+
 router.get("/places", async (req, res) => {
     try {
         const placeDB = await Place.find()
@@ -44,6 +59,7 @@ router.get("/places", async (req, res) => {
         res.json(error)
     }
 })
+
 router.get("/places/:placeId", async (req, res) => {
     const { placeId } = req.params
     try {
@@ -85,6 +101,7 @@ router.get("/places/:placeId/reviews", isAuthenticated, async (req, res) => {
         res.json(error)
     }
 })
+
 router.delete("/places/:placeId", isAuthenticated, async (req, res) => {
     const { placeId } = req.params
     try {
@@ -99,6 +116,7 @@ router.delete("/places/:placeId", isAuthenticated, async (req, res) => {
         res.json(error)
     }
 })
+
 router.get("/map", isAuthenticated, async (req, res) => {
     try {
         const spotsDb = await Place.find()
@@ -113,6 +131,7 @@ router.get("/map", isAuthenticated, async (req, res) => {
 router.get("/addReview/:placeId", isAuthenticated, (req, res) => {
     res.json(req.params.placeId)
 });
+
 router.post("/addReview/:placeId", isAuthenticated, async (req, res) => {
     try {
         const userSaved = await User.findById(req.payload._id)

@@ -4,7 +4,7 @@ const reviewSchema = new Schema(
     {
         check: {
             type: Boolean,
-            required : true,
+            required: true,
         },
         comment: {
             type: String,
@@ -16,11 +16,10 @@ const reviewSchema = new Schema(
         user: {
             type: Schema.Types.ObjectId, ref: "User"
         }
-        
     },
     {
         timestamps: true,
-      }
+    }
 )
 const Review = model("Review", reviewSchema);
 module.exports = Review;

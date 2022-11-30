@@ -7,13 +7,10 @@ const favoriteSchema = new Schema(
         type: Schema.Types.ObjectId, ref:"User",
 
       },
-
     place: {
         type: Schema.Types.ObjectId, ref:"Place"
-      },
-    
+      },   
   },
-
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
