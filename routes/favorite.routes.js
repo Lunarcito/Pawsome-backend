@@ -5,7 +5,6 @@ const Favorite = require("../models/Favorite");
 const mongoose = require('mongoose')
 const fileUploader = require('../config/cloudinary.config');
 
-
 router.get("/favorites", isAuthenticated, async (req, res) => {
     const user = req.payload
     const userId = user._id
@@ -17,8 +16,7 @@ router.get("/favorites", isAuthenticated, async (req, res) => {
     }
 })
 
-
-router.delete('/favorites/:favoriteId', isAuthenticated,async (req, res) => {
+router.delete('/favorites/:favoriteId', isAuthenticated, async (req, res) => {
     const favoriteId = req.params.favoriteId
     try {
         const dbFavorites = await Favorite.findOneAndDelete({ _id: favoriteId })

@@ -23,16 +23,12 @@ const userSchema = new Schema(
       required: [true, "User name is required."],
     },
     createdPlaceId:
-      [{type: Schema.Types.ObjectId, ref: 'Place'}]
+      [{ type: Schema.Types.ObjectId, ref: 'Place' }]
     ,
-    image: {
-      type: String,
-      default: ""
-    },
-    resetPasswordToken:{
+    resetPasswordToken: {
 
     },
-    resetPasswordExpires:{
+    resetPasswordExpires: {
 
     },
     reviewId:
@@ -41,8 +37,8 @@ const userSchema = new Schema(
     favorite: {
       type: Schema.Types.ObjectId, ref: "Favorite",
     },
-    pet: 
-      [{ type: Schema.Types.ObjectId, ref: "Pet"}],
+    pet:
+      [{ type: Schema.Types.ObjectId, ref: "Pet" }],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
