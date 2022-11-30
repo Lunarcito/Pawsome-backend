@@ -10,12 +10,14 @@ const fileUploader = require('../config/cloudinary.config');
 
 router.post("/pet-profile/create", fileUploader.single('image'), isAuthenticated, async (req, res) => {
     const { namePet } = req.body
-    const {user} = req.payload._id
+
+    console.log(req.file.path)
+    const image = req.file.path
 
     try {
 
         // const {image} = req.file.path
-        const petProfile = await Pet.create({ namePet,  user: req.payload._id })
+        const petProfile = await Pet.create({ namePet, image,  user: req.payload._id })
         const userUpdated = await User.findByIdAndUpdate(req.payload._id, {$push: { pet: petProfile._id },
         });
 
