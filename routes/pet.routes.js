@@ -20,7 +20,6 @@ router.post("/pet-profile/create", fileUploader.single('image'), isAuthenticated
     image = "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669807813/Pawsome/image_4_zxyp1t.png"
 
     }
-    console.log(req)
 
     try {
 
