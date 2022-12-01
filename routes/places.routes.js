@@ -11,10 +11,7 @@ const Favorite = require("../models/Favorite");
 
 router.post("/addPlace", isAuthenticated, fileUploader.array('pictures'), async (req, res) => {
     const { name, address, description, type, socialMedia, typeOther } = req.body;
-    console.log(type)
-    console.log(`3${req.file}`)
-    console.log(`2${req.files}`)
-    console.log(req)
+
     const pictures = []
     if (req.file) {
         pictures.push(req.file.path)
@@ -24,7 +21,6 @@ router.post("/addPlace", isAuthenticated, fileUploader.array('pictures'), async 
         })
     } else if(pictures.length === 0) {
         if (type === 'Restaurant') {
-            console.log(type)
             pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669836239/Pawsome/white-interior-blur-blurred-chair_s7b2zj.jpg')
         } else if (type === 'Cafeteria') {
             pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669827075/Pawsome/20-18_mifloz.jpg')
@@ -98,7 +94,6 @@ router.put("/places/:placeId", fileUploader.array('pictures'), isAuthenticated, 
 router.get("/places/:placeId/reviews", isAuthenticated, async (req, res) => {
     const { placeId } = req.params
     try {
-        console.log("searching reviews of places ID", placeId)
         const reviewsByPlace = await Review.find({ place: placeId })
         res.json(reviewsByPlace)
 
@@ -179,10 +174,8 @@ router.post("/favorite/:placeId", isAuthenticated, async (req, res) => {
         let favoritesDB = await Favorite.find({ place: placeId, user: user._id })
         if (favoritesDB) {
             const deletedFavorite = await Favorite.findOneAndDelete({ place: placeId, user: user._id })
-            console.log("DELETED FAVORITE", deletedFavorite)
         }
         let newFavorite = await Favorite.create({ user: user._id, place: placeId })
-        console.log("TIS IS NEW FAVORITE", newFavorite)
         isAuthenticated
         res.json(newFavorite)
     } catch (error) {

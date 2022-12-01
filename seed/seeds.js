@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
+const Place = require("../models/Place.model")
+const User = require("../models/User.model")
 const Places = require("../models/Place.model")
 // Require the models,  Example: (-- const Book = require("../models/Book.model") --)
-const User = require("../models/User.model")
 const users = [
   {
     email: 'test1@example.com',
@@ -43,8 +44,8 @@ const places = [
     name: "LeccaBaffi",
     type: "Restaurant",
     address: "Carrer de València, 341, 08009 Barcelona",
-    pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819099/Pawsome/leccabaffi-barcelona-ristorante-pizzeria-1_sipwyv.jpg","https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819099/Pawsome/48381765_1053406081514412_2645034022735970304_n_bgyxly.jpg"],
-    socialMedia: ["https://www.instagram.com/leccabaffibcn/?hl=es"]
+    pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819099/Pawsome/leccabaffi-barcelona-ristorante-pizzeria-1_sipwyv.jpg", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819099/Pawsome/48381765_1053406081514412_2645034022735970304_n_bgyxly.jpg"],
+    socialMedia: ["https://www.instagram.com/leccabaffibcn/?hl=es"],
   },
   {
     name: "La Nena",
@@ -63,7 +64,7 @@ const places = [
     name: "Casa Batlló",
     type: "Museum",
     address: "Passeig de Gràcia, 43, 08007 Barcelona",
-    pictures:["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819636/Pawsome/casa_batllo_mzcalx.png", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819635/Pawsome/casa_batllo_sueooc.jpg","https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819635/Pawsome/azotea-590x359_ru0pjx.jpg"],
+    pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819636/Pawsome/casa_batllo_mzcalx.png", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819635/Pawsome/casa_batllo_sueooc.jpg", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819635/Pawsome/azotea-590x359_ru0pjx.jpg"],
     socialMedia: ["https://www.casabatllo.es/"],
   },
   {
@@ -76,7 +77,7 @@ const places = [
     name: "Playa de Llevant",
     type: "Beach",
     address: "Passeig Marítim del Bogatell, 145, 08005 Barcelona, Madrid",
-    pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819899/Pawsome/platja-de-llevant-amb-gossos_xbjxxw.jpg", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819899/Pawsome/886483311091316_ewctok.jpg"]
+    pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819899/Pawsome/platja-de-llevant-amb-gossos_xbjxxw.jpg", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819899/Pawsome/886483311091316_ewctok.jpg"],
   },
 ]
 const MONGO_URI = "mongodb://localhost:27017/project3"
@@ -84,18 +85,31 @@ const createSeeds = async function () {
   try {
     const connect = await mongoose.connect(MONGO_URI)
     console.log(`Connected to database: ${connect.connections[0].name}`)
-    // ------------------- Users seeds ---------------------
     const deleteAll = await User.deleteMany()
     console.log("Db clean")
-    const createAll = await User.create(users)
+    const dbUser = await User.create(users)
     console.log("Users created")
-    // ------------------- User seeds ----------------------
-    // ------------------- Place seeds ---------------------
     const deleteAllPlaces = await Places.deleteMany()
     console.log("Db clean")
-    const createAllPlaces = await Places.create(places)
-    console.log("Users created")
-    // ------------------- Place seeds ----------------------
+    const dbPlaces = await Places.create(places)
+    console.log("Places created")
+    const userUpdate1 = await User.findByIdAndUpdate(dbUser[0]._id, { $push: { createdPlaceId: dbPlaces[0]._id } })
+    const placeUpdate1 = await Place.findByIdAndUpdate(dbPlaces[0]._id, { User: dbUser[0]._id })
+    const userUpdate2 = await User.findByIdAndUpdate(dbUser[0]._id, { $push: { createdPlaceId: dbPlaces[1]._id } })
+    const placeUpdate2 = await Place.findByIdAndUpdate(dbPlaces[1]._id, { User: dbUser[0]._id })
+    const userUpdate3 = await User.findByIdAndUpdate(dbUser[2]._id, { $push: { createdPlaceId: dbPlaces[2]._id } })
+    const placeUpdate3 = await Place.findByIdAndUpdate(dbPlaces[2]._id, { User: dbUser[2]._id })
+    const userUpdate4 = await User.findByIdAndUpdate(dbUser[0]._id, { $push: { createdPlaceId: dbPlaces[3]._id } })
+    const placeUpdate4 = await Place.findByIdAndUpdate(dbPlaces[3]._id, { User: dbUser[0]._id })
+    const userUpdate5 = await User.findByIdAndUpdate(dbUser[1]._id, { $push: { createdPlaceId: dbPlaces[4]._id } })
+    const placeUpdate5 = await Place.findByIdAndUpdate(dbPlaces[4]._id, { User: dbUser[1]._id })
+    const userUpdate6 = await User.findByIdAndUpdate(dbUser[1]._id, { $push: { createdPlaceId: dbPlaces[5]._id } })
+    const placeUpdate6 = await Place.findByIdAndUpdate(dbPlaces[5]._id, { User: dbUser[1]._id })
+    const userUpdate7 = await User.findByIdAndUpdate(dbUser[1]._id, { $push: { createdPlaceId: dbPlaces[6]._id } })
+    const placeUpdate7 = await Place.findByIdAndUpdate(dbPlaces[6]._id, { User: dbUser[1]._id })
+    const userUpdate8 = await User.findByIdAndUpdate(dbUser[2]._id, { $push: { createdPlaceId: dbPlaces[7]._id } })
+    const placeUpdate8 = await Place.findByIdAndUpdate(dbPlaces[7]._id, { User: dbUser[2]._id })
+    console.log("Places and users updated")
     const dbClose = await mongoose.connection.close()
     console.log("Connection closed")
   } catch (err) {
@@ -103,23 +117,6 @@ const createSeeds = async function () {
   }
 }
 createSeeds()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
