@@ -11,6 +11,10 @@ const Favorite = require("../models/Favorite");
 
 router.post("/addPlace", isAuthenticated, fileUploader.array('pictures'), async (req, res) => {
     const { name, address, description, type, socialMedia, typeOther } = req.body;
+    console.log(type)
+    console.log(`3${req.file}`)
+    console.log(`2${req.files}`)
+    console.log(req)
     const pictures = []
     if (req.file) {
         pictures.push(req.file.path)
@@ -18,15 +22,16 @@ router.post("/addPlace", isAuthenticated, fileUploader.array('pictures'), async 
         req.files.forEach((file) => {
             pictures.push(file.path)
         })
-    } else {
+    } else if(pictures.length === 0) {
         if (type === 'Restaurant') {
-            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669826849/Pawsome/Restaurant-Logo-by-Koko-Store-580x386_ifffwk.jpg')
+            console.log(type)
+            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669836239/Pawsome/white-interior-blur-blurred-chair_s7b2zj.jpg')
         } else if (type === 'Cafeteria') {
             pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669827075/Pawsome/20-18_mifloz.jpg')
         } else if (type === 'Museum') {
             pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669827649/Pawsome/publicmuseumsign_89226_djdz6i.png')
         } else if (type === 'Beach') {
-            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669829586/Pawsome/vecteezy_beach-icon-or-logo-isolated-sign-symbol-vector-illustration__mvmg5t.jpg')
+            pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669836393/Pawsome/adorable-pomeranian-spitz-dog-having-fun-running-beach_1_a2m3j3.jpg')
         } else {
             pictures.push('https://res.cloudinary.com/dfajfbnkr/image/upload/v1669829890/Pawsome/pet_friendly_1_yivv9j.jpg')
         }

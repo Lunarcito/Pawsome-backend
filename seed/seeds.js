@@ -1,9 +1,7 @@
 const mongoose = require("mongoose")
 const Places = require("../models/Place.model")
-
 // Require the models,  Example: (-- const Book = require("../models/Book.model") --)
 const User = require("../models/User.model")
-
 const users = [
   {
     email: 'test1@example.com',
@@ -25,9 +23,7 @@ const users = [
     userName: 'test3'
   },
 ]
-
 const places = [
-
   {
     name: "Billy Brunch",
     type: "Cafeteria",
@@ -43,7 +39,6 @@ const places = [
     pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669817641/Pawsome/viader3_z327gi.jpg", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669817641/Pawsome/viader2_u81yeh.jpg"],
     sociaMedia: ["https://www.instagram.com/granjaviader/?hl=es"],
   },
-
   {
     name: "LeccaBaffi",
     type: "Restaurant",
@@ -58,14 +53,12 @@ const places = [
     pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819413/Pawsome/la_nena_ieioqz.jpg", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819412/Pawsome/la_nena2_yrkico.jpg"],
     socialMedia: ["https://www.instagram.com/granjalanena/?hl=es"],
   },
-
   {
     name: "Caelum",
     type: "Cafeteria",
     address: "Carrer de la Palla, 8, 08002 Barcelona",
     socialMedia: ["https://www.instagram.com/caelumbcn/?hl=es"],
   },
-
   {
     name: "Casa Batlló",
     type: "Museum",
@@ -73,15 +66,12 @@ const places = [
     pictures:["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819636/Pawsome/casa_batllo_mzcalx.png", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819635/Pawsome/casa_batllo_sueooc.jpg","https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819635/Pawsome/azotea-590x359_ru0pjx.jpg"],
     socialMedia: ["https://www.casabatllo.es/"],
   },
-
   {
     name: "Poble Espanyol",
     type: "Museum",
     address: "Av. Francesc Ferrer i Guàrdia, 13, 08038 Barcelona",
     socialMedia: ["https://upload.wikimedia.org/wikipedia/commons/4/41/Poble_Espanyol_-_Torres_de_%C3%81vila.jpg"],
   },
-
-
   {
     name: "Playa de Llevant",
     type: "Beach",
@@ -89,36 +79,48 @@ const places = [
     pictures: ["https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819899/Pawsome/platja-de-llevant-amb-gossos_xbjxxw.jpg", "https://res.cloudinary.com/dfajfbnkr/image/upload/v1669819899/Pawsome/886483311091316_ewctok.jpg"]
   },
 ]
-
 const MONGO_URI = "mongodb://localhost:27017/project3"
-
-
 const createSeeds = async function () {
   try {
     const connect = await mongoose.connect(MONGO_URI)
     console.log(`Connected to database: ${connect.connections[0].name}`)
-
     // ------------------- Users seeds ---------------------
     const deleteAll = await User.deleteMany()
     console.log("Db clean")
     const createAll = await User.create(users)
     console.log("Users created")
     // ------------------- User seeds ----------------------
-
-
     // ------------------- Place seeds ---------------------
     const deleteAllPlaces = await Places.deleteMany()
     console.log("Db clean")
     const createAllPlaces = await Places.create(places)
     console.log("Users created")
     // ------------------- Place seeds ----------------------
-
-
     const dbClose = await mongoose.connection.close()
     console.log("Connection closed")
   } catch (err) {
     console.log(`Error creating the seeds: ${err}`)
   }
 }
-
 createSeeds()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
