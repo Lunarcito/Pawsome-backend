@@ -80,7 +80,6 @@ router.post("/forgotPassword", isAuthenticated, async (req, res, next) => {
                     
                     After one hour the link will expire: http://localhost:8000/reset/${token} `
                 }
-                console.log(mailOptions.to)
                 console.log("sending email")
 
                 transporter.sendMail(mailOptions, (err, response) => {
@@ -97,7 +96,6 @@ router.post("/forgotPassword", isAuthenticated, async (req, res, next) => {
 })
 
 router.put("/setNewPassword", isAuthenticated, async (req, res, next) => {
-    console.log(req.body)
     if (req.body.email === '') {
         res.status(400).send('email required')
         return
@@ -112,7 +110,6 @@ router.put("/setNewPassword", isAuthenticated, async (req, res, next) => {
         } else {
             const salt = bcrypt.genSaltSync(saltRounds);
             const hashedPassword = bcrypt.hashSync(req.body.password, salt);
-            console.log(hashedPassword)
             const updatedUser = await User.findByIdAndUpdate(req.payload._id, { password: hashedPassword })
             res.json(updatedUser)
         }
