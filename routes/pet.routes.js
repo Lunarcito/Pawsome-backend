@@ -13,9 +13,9 @@ router.post("/pet-profile/create", fileUploader.single('image'), isAuthenticated
     const {user} = req.payload._id
 
     try {
-
-        // const {image} = req.file.path
-        const petProfile = await Pet.create({ namePet,  user: req.payload._id })
+        console.log("uploading pet picture")
+        console.log(req.file.path)
+        const petProfile = await Pet.create({ namePet, image: req.file.path, user: req.payload._id })
         const userUpdated = await User.findByIdAndUpdate(req.payload._id, {$push: { pet: petProfile._id },
         });
 
