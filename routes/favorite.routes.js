@@ -28,4 +28,3 @@ router.delete('/favorites/:favoriteId', isAuthenticated, async (req, res) => {
 
 
 module.exports = router
-
