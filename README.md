@@ -1,4 +1,4 @@
-# Pawsome (back-end)
+# 🐾 Pawsome (back-end)
 
 Looking for a pet-friendly beach? How about an awesome museum, shopping center or cafe?
 
