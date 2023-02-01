@@ -172,12 +172,14 @@ router.post("/favorite/:placeId", isAuthenticated, async (req, res) => {
     const user = req.payload
     try {
         let favoritesDB = await Favorite.find({ place: placeId, user: user._id })
-        if (favoritesDB) {
-            const deletedFavorite = await Favorite.findOneAndDelete({ place: placeId, user: user._id })
+
+        if (favoritesDB.length === 0) {
+            let newFavorite = await Favorite.create({ user: user._id, place: placeId })
+            res.json(newFavorite)
+        } else {
+            res.json(favoritesDB)
         }
-        let newFavorite = await Favorite.create({ user: user._id, place: placeId })
-        isAuthenticated
-        res.json(newFavorite)
+    
     } catch (error) {
         console.log(error)
     }
